@@ -83,6 +83,8 @@ dependencies {
     implementation (libs.hilt.android)
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
 
+    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
 
 
 }
