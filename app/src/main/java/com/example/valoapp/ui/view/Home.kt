@@ -1,12 +1,14 @@
 package com.example.valoapp.ui.view
 
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,23 +34,14 @@ fun HomeView(viewModel: AgentsViewModel = viewModel()) {
     val isLoading by viewModel.isLoading.observeAsState(true)
     val errorMessage by viewModel.errorMessage.observeAsState()
 
-    if (errorMessage != null) {
-        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
-        return
+    if (!isLoading) {
+        if (errorMessage != null) {
+            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+            return
+        }
     }
 
     val agentList = agents?.data ?: emptyList()
-
-//    Button(
-//        colors = CardDefaults.cardColors(containerColor = Color(0x3a7233ff)),
-//        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-//        shape = RoundedCornerShape(16.dp),
-//        modifier = Modifier
-//            .weight(1f)
-//            .padding(8.dp),
-//        onClick = { /*TODO*/ }) {
-//
-//    }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -64,7 +57,8 @@ fun HomeView(viewModel: AgentsViewModel = viewModel()) {
                         agent = agent,
                         modifier = Modifier
                             .weight(1f)
-                            .padding(8.dp),
+                            .padding(8.dp)
+                            .height(250.dp),
                         onClick = {
                             Toast.makeText(context, agent.uuid, Toast.LENGTH_SHORT).show()
                         }
