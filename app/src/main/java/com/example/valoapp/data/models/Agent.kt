@@ -9,7 +9,7 @@ data class Agent(
     val description: String,
     val developerName: String,
     val characterTags: List<String>?,
-    val displayIcon: String,
+    var displayIcon: String,
     val displayIconSmall: String,
     val bustPortrait: String,
     val fullPortrait: String,
