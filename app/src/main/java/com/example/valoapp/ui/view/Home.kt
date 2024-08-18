@@ -1,5 +1,13 @@
 package com.example.valoapp.ui.view
 
-fun HomeView(){
 
+import androidx.compose.runtime.Composable
+
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.valoapp.ui.view.components.CardComponent
+
+@Preview
+@Composable
+fun HomeView() {
+    CardComponent()
 }
