@@ -18,6 +18,11 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "API_BASE_URL", "\"https://example-api.com/v1/\"")
+    }
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
