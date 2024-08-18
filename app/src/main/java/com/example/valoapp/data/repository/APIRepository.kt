@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.Call
 
 interface APIRepository{
-    @GET("agents")
+    @GET("agents?isPlayableCharacter=true")
     fun getAgents(): Call<Agents>
 }
