@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.runtime.livedata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,4 +76,13 @@ dependencies {
     // Retrofit for API requests
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
+
+    // ViewModel and LiveData for MVVM architecture
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+    implementation (libs.lifecycle.livedata)
+    implementation (libs.hilt.android)
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+
+
+
 }
