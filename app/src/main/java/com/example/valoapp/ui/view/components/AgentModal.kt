@@ -23,11 +23,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,18 +40,18 @@ import com.example.valoapp.data.models.ModalData
 import com.example.valoapp.ui.viewmodel.AgentViewModel
 import com.example.valoapp.utils.hexToColorInt
 
-//@Composable
-//@Preview
-//fun modalpreview(){
-//    var showDialog by remember { mutableStateOf(true) }
-//    if (showDialog) {
-//        AgentModal(data = ModalData(
-//            agentUUID = "dade69b4-4f5a-8528-247b-219e5a1facd6",
-//            onDismissRequest = { showDialog = false},
-//            imageDescription = "agent image"
-//        ))
-//    }
-//}
+@Composable
+@Preview
+fun modalpreview(){
+    var showDialog by remember { mutableStateOf(true) }
+    if (showDialog) {
+        AgentModal(data = ModalData(
+            agentUUID = "dade69b4-4f5a-8528-247b-219e5a1facd6",
+            onDismissRequest = { showDialog = false},
+            imageDescription = "agent image"
+        ))
+    }
+}
 
 @Composable
 fun AgentModal(data: ModalData) {
@@ -71,8 +75,8 @@ fun AgentModal(data: ModalData) {
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize(),
+//                modifier = Modifier
+//                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -130,7 +134,8 @@ fun AgentModal(data: ModalData) {
                                 }
 
                             }
-                            Column(
+                        }
+                        Column(
                                 modifier = Modifier.fillMaxWidth(),
 //                                horizontalAlignment = Arrangement.
                             ) {
@@ -147,7 +152,6 @@ fun AgentModal(data: ModalData) {
                                     modifier = Modifier.padding(16.dp),
                                 )
                             }
-                        }
 
 
                         Row(
