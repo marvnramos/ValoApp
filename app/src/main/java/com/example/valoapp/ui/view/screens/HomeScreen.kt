@@ -12,12 +12,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.valoapp.data.models.CardData
+import com.example.valoapp.data.models.ModalData
+import com.example.valoapp.ui.view.components.AgentModal
 import com.example.valoapp.ui.view.components.CardComponent
 import com.example.valoapp.ui.viewmodel.AgentsViewModel
 
@@ -27,9 +33,12 @@ import com.example.valoapp.ui.viewmodel.AgentsViewModel
 fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
     val context = LocalContext.current
 
-    val agents by viewModel.agents.observeAsState()
+    val agents by viewModel.agentsResponse.observeAsState()
     val isLoading by viewModel.isLoading.observeAsState(true)
     val errorMessage by viewModel.errorMessage.observeAsState()
+
+    var showDialog by remember { mutableStateOf(false) }
+    var selectedAgentUUID by remember { mutableStateOf("") }
 
     if (!isLoading) {
         errorMessage?.let {
@@ -42,7 +51,6 @@ fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
     LazyColumn(
         contentPadding = PaddingValues(8.dp)
     ) {
-
         items(agentList.chunked(2)) { agentPair ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -56,12 +64,23 @@ fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
                             .padding(8.dp)
                             .height(250.dp),
                         onClick = {
-                            Toast.makeText(context, agent.uuid, Toast.LENGTH_SHORT).show()
+                            selectedAgentUUID = agent.uuid
+                            showDialog = true
                         }
                     )
                     CardComponent(dataCard)
                 }
             }
         }
+    }
+
+    if (showDialog) {
+        AgentModal(
+            data = ModalData(
+                agentUUID = selectedAgentUUID,
+                onDismissRequest = { showDialog = false },
+                imageDescription = "Agent Image"
+            )
+        )
     }
 }
