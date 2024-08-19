@@ -2,10 +2,8 @@ package com.example.valoapp.ui.view.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,12 +17,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.example.valoapp.data.models.CardData
 import com.example.valoapp.ui.view.components.CardComponent
-import com.example.valoapp.ui.view.components.NavigationBarSample
 import com.example.valoapp.ui.viewmodel.AgentsViewModel
 
 
@@ -32,51 +26,42 @@ import com.example.valoapp.ui.viewmodel.AgentsViewModel
 @Composable
 fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
     val context = LocalContext.current
-    val navController = rememberNavController()
 
     val agents by viewModel.agents.observeAsState()
     val isLoading by viewModel.isLoading.observeAsState(true)
     val errorMessage by viewModel.errorMessage.observeAsState()
 
     if (!isLoading) {
-        if (errorMessage != null) {
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+        errorMessage?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             return
         }
     }
-
     val agentList = agents?.data ?: emptyList()
-    NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HomeScreen() }
-        composable("maps") { MapsScreen() }
-    }
-    Column(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier.weight(1f),
-            contentPadding = PaddingValues(8.dp)
-        ) {
 
-            items(agentList.chunked(2)) { agentPair ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    agentPair.forEach { agent ->
-                        val dataCard = CardData(
-                            agent = agent,
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(8.dp)
-                                .height(250.dp),
-                            onClick = {
-                                Toast.makeText(context, agent.uuid, Toast.LENGTH_SHORT).show()
-                            }
-                        )
-                        CardComponent(dataCard)
-                    }
+    LazyColumn(
+        contentPadding = PaddingValues(8.dp)
+    ) {
+
+        items(agentList.chunked(2)) { agentPair ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                agentPair.forEach { agent ->
+                    val dataCard = CardData(
+                        agent = agent,
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(8.dp)
+                            .height(250.dp),
+                        onClick = {
+                            Toast.makeText(context, agent.uuid, Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                    CardComponent(dataCard)
                 }
             }
         }
-        NavigationBarSample(navController)
     }
 }
