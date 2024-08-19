@@ -1,5 +1,7 @@
 package com.example.valoapp.ui.view.components
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +21,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,9 +32,12 @@ import com.example.valoapp.ui.viewmodel.AgentViewModel
 @Composable
 fun AgentModal(data: ModalData) {
     val (agentUUID, onDismissRequest, imageDescription) = data
+    val context = LocalContext.current
 
     val viewModel: AgentViewModel = viewModel()
     val agentResponse by viewModel.agentResponse.observeAsState()
+    val isLoading by viewModel.isLoading.observeAsState(false)
+    val errorMessage by viewModel.errorMessage.observeAsState()
 
     LaunchedEffect(agentUUID) {
         viewModel.fetchAgent(agentUUID)
@@ -51,32 +57,44 @@ fun AgentModal(data: ModalData) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                agentResponse?.let { agent ->
-                    Image(
-                        painter = rememberAsyncImagePainter(agent.data.bustPortrait),
-                        contentDescription = imageDescription,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .height(160.dp)
-                    )
-                    Text(
-                        text = agent.data.displayName,
-                        modifier = Modifier.padding(16.dp),
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        TextButton(
-                            onClick = { onDismissRequest() },
-                            modifier = Modifier.padding(8.dp),
+                when {
+                    isLoading -> {
+                        Text(text = "Loading...")
+                    }
+                    errorMessage != null -> {
+                        Log.d("AgentModal", "Error: $errorMessage")
+                        Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                        onDismissRequest()
+                    }
+                    agentResponse != null -> {
+                        val agent = agentResponse!!.data
+                        Image(
+                            painter = rememberAsyncImagePainter(agent.bustPortrait),
+                            contentDescription = imageDescription,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .height(160.dp)
+                        )
+                        Text(
+                            text = agent.displayName,
+                            modifier = Modifier.padding(16.dp),
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
                         ) {
-                            Text("Dismiss")
+                            TextButton(
+                                onClick = { onDismissRequest() },
+                                modifier = Modifier.padding(8.dp),
+                            ) {
+                                Text("Dismiss")
+                            }
                         }
                     }
-                } ?: run {
-                    Text(text = "Loading...")
+                    else -> {
+                        Text(text = "No data available.")
+                    }
                 }
             }
         }
