@@ -21,13 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.valoapp.data.models.CardData
 import com.example.valoapp.ui.view.components.CardComponent
-import com.example.valoapp.ui.view.components.NavigationBarSample
 import com.example.valoapp.ui.viewmodel.AgentsViewModel
 
 
 @Preview
 @Composable
-fun HomeView(viewModel: AgentsViewModel = viewModel()) {
+fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
     val context = LocalContext.current
 
     val agents by viewModel.agents.observeAsState()
@@ -70,6 +69,6 @@ fun HomeView(viewModel: AgentsViewModel = viewModel()) {
             }
         }
 
-        NavigationBarSample()
+//        NavigationBarSample()
     }
 }
