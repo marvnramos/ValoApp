@@ -1,4 +1,4 @@
-package com.example.valoapp.ui.view
+package com.example.valoapp.ui.view.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
