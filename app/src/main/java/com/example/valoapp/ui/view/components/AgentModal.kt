@@ -117,7 +117,6 @@ fun AgentModal(data: ModalData) {
                                             brush = Brush.verticalGradient(colors = colorList),
                                             shape = RoundedCornerShape(16.dp)
                                         )
-                                        .height(200.dp)
                                 ) {
                                     Image(
                                         painter = rememberAsyncImagePainter(agent.bustPortrait),
@@ -125,17 +124,11 @@ fun AgentModal(data: ModalData) {
 
                                         modifier = Modifier
                                             .fillMaxWidth()
-                                            .height(200.dp),
+                                            .padding(5.dp),
                                         contentScale = ContentScale.Crop
                                     )
                                 }
-//                                Image(
-//                                    painter = rememberAsyncImagePainter(agent.bustPortrait),
-//                                    contentDescription = imageDescription,
-//                                    contentScale = ContentScale.Fit,
-//                                    modifier = Modifier
-//                                        .height(160.dp)
-//                                )
+
                             }
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
