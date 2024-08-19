@@ -19,8 +19,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.valoapp.data.models.CardData
 import com.example.valoapp.ui.view.components.CardComponent
+import com.example.valoapp.ui.view.components.NavigationBarSample
 import com.example.valoapp.ui.viewmodel.AgentsViewModel
 
 
@@ -28,6 +32,7 @@ import com.example.valoapp.ui.viewmodel.AgentsViewModel
 @Composable
 fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
     val context = LocalContext.current
+    val navController = rememberNavController()
 
     val agents by viewModel.agents.observeAsState()
     val isLoading by viewModel.isLoading.observeAsState(true)
@@ -41,12 +46,16 @@ fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
     }
 
     val agentList = agents?.data ?: emptyList()
-
+    NavHost(navController = navController, startDestination = "home") {
+        composable("home") { HomeScreen() }
+        composable("maps") { MapsScreen() }
+    }
     Column(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier.weight(1f),
             contentPadding = PaddingValues(8.dp)
         ) {
+
             items(agentList.chunked(2)) { agentPair ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -68,7 +77,6 @@ fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
                 }
             }
         }
-
-//        NavigationBarSample()
+        NavigationBarSample(navController)
     }
 }
