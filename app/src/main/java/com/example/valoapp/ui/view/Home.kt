@@ -1,9 +1,8 @@
 package com.example.valoapp.ui.view
 
-
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.valoapp.data.models.CardData
 import com.example.valoapp.ui.view.components.CardComponent
+import com.example.valoapp.ui.view.components.NavigationBarSample
 import com.example.valoapp.ui.viewmodel.AgentsViewModel
 
 
@@ -43,29 +43,33 @@ fun HomeView(viewModel: AgentsViewModel = viewModel()) {
 
     val agentList = agents?.data ?: emptyList()
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(8.dp)
-    ) {
-        items(agentList.chunked(2)) { agentPair ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                agentPair.forEach { agent ->
-                    val dataCard = CardData(
-                        agent = agent,
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(8.dp)
-                            .height(250.dp),
-                        onClick = {
-                            Toast.makeText(context, agent.uuid, Toast.LENGTH_SHORT).show()
-                        }
-                    )
-                    CardComponent(dataCard)
+    Column(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(8.dp)
+        ) {
+            items(agentList.chunked(2)) { agentPair ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    agentPair.forEach { agent ->
+                        val dataCard = CardData(
+                            agent = agent,
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(8.dp)
+                                .height(250.dp),
+                            onClick = {
+                                Toast.makeText(context, agent.uuid, Toast.LENGTH_SHORT).show()
+                            }
+                        )
+                        CardComponent(dataCard)
+                    }
                 }
             }
         }
+
+        NavigationBarSample()
     }
 }
