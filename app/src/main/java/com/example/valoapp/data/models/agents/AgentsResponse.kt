@@ -1,4 +1,4 @@
-package com.example.valoapp.data.models
+package com.example.valoapp.data.models.agents
 
 data class AgentsResponse(
     val status: Int,
