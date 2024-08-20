@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.valoapp.ui.view.components.NavigationBarSample
+import com.example.valoapp.ui.view.components.NavigationBarComponent
 import com.example.valoapp.ui.view.screens.HomeScreen
 import com.example.valoapp.ui.view.screens.MapsScreen
 
@@ -26,7 +26,7 @@ fun MainView() {
             composable("maps") { MapsScreen() }
         }
 
-        NavigationBarSample(navController = navController)
+        NavigationBarComponent(navController = navController)
     }
 }
 

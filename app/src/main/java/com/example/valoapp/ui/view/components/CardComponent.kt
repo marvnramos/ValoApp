@@ -5,10 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
@@ -70,8 +71,17 @@ fun CardComponent(data: CardData) {
                 contentDescription = "Character",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .fillMaxHeight(1f),
                 contentScale = ContentScale.Crop
+            )
+            Image(
+                painter = rememberAsyncImagePainter(agent?.role?.displayIcon),
+                contentDescription = "${agent?.role} role icon",
+                modifier = Modifier
+                    .size(40.dp)
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp),
+                contentScale = ContentScale.Fit
             )
             Text(
                 text = agent?.displayName ?: "Unknown",
