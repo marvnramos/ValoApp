@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
 
 @Composable
-fun NavigationBarSample(navController: NavHostController) {
+fun NavigationBarComponent(navController: NavHostController) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Maps")
 
