@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -104,7 +104,6 @@ fun AgentModal(data: ModalData) {
                                     .fillMaxWidth()
                                     .padding(8.dp),
                                 shape = RoundedCornerShape(16.dp),
-                                elevation = CardDefaults.cardElevation(10.dp)
                             ) {
                                 Box(
                                     modifier = Modifier
@@ -120,6 +119,15 @@ fun AgentModal(data: ModalData) {
                                             .fillMaxWidth()
                                             .padding(5.dp),
                                         contentScale = ContentScale.Crop
+                                    )
+                                    Image(
+                                        painter = rememberAsyncImagePainter(agent.role?.displayIcon),
+                                        contentDescription = "${agent.role} role icon",
+                                        modifier = Modifier
+                                            .size(40.dp)
+                                            .align(Alignment.TopEnd)
+                                            .padding(8.dp),
+                                        contentScale = ContentScale.Fit
                                     )
                                 }
                             }
