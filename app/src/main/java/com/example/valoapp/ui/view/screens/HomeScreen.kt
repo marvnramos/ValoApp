@@ -30,7 +30,7 @@ import com.example.valoapp.data.models.CardData
 import com.example.valoapp.data.models.ModalData
 import com.example.valoapp.ui.view.components.AgentModal
 import com.example.valoapp.ui.view.components.CardComponent
-import com.example.valoapp.ui.view.components.SearchBarSample
+import com.example.valoapp.ui.view.components.SearchBarComponent
 import com.example.valoapp.ui.viewmodel.AgentsViewModel
 
 
@@ -50,7 +50,7 @@ fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
 
 
     Column(modifier = Modifier.fillMaxSize()) {
-        SearchBarSample(text)
+        SearchBarComponent(text)
 
         when {
             isLoading -> {
