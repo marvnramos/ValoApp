@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.valoapp.ui.view.HomeView
+import com.example.valoapp.ui.view.MainView
 import com.example.valoapp.ui.view.theme.ValoAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ValoAppTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    HomeView()
+                    MainView()
                 }
             }
         }

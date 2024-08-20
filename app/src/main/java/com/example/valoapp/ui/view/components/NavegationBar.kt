@@ -13,11 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 
-@Preview
 @Composable
-fun NavigationBarSample() {
+fun NavigationBarSample(navController: NavHostController) {
     var selectedItem by remember { mutableIntStateOf(0) }
     val items = listOf("Home", "Maps")
 
@@ -33,7 +32,13 @@ fun NavigationBarSample() {
                 },
                 label = { Text(item) },
                 selected = selectedItem == index,
-                onClick = { selectedItem = index }
+                onClick = {
+                    selectedItem = index
+                    when (index) {
+                        0 -> navController.navigate("home")
+                        1 -> navController.navigate("maps")
+                    }
+                }
             )
         }
     }

@@ -1,6 +1,6 @@
 package com.example.valoapp.data.models
 
-data class Agents(
+data class AgentResponse(
     val status: Int,
-    val data: List<Agent>
+    val data: Agent
 )
