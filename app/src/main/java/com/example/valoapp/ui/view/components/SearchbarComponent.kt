@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBarSample(text: MutableState<String>) {
+fun SearchBarComponent(text: MutableState<String>) {
     Column(
         Modifier
             .fillMaxWidth()
