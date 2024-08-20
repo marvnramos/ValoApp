@@ -1,6 +1,5 @@
 package com.example.valoapp.ui.view.components
 
-import androidx.compose.ui.graphics.Color
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -9,10 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -29,9 +25,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,18 +37,6 @@ import com.example.valoapp.data.models.ModalData
 import com.example.valoapp.ui.viewmodel.AgentViewModel
 import com.example.valoapp.utils.hexToColorInt
 
-@Composable
-@Preview
-fun modalpreview(){
-    var showDialog by remember { mutableStateOf(true) }
-    if (showDialog) {
-        AgentModal(data = ModalData(
-            agentUUID = "dade69b4-4f5a-8528-247b-219e5a1facd6",
-            onDismissRequest = { showDialog = false},
-            imageDescription = "agent image"
-        ))
-    }
-}
 
 @Composable
 fun AgentModal(data: ModalData) {
@@ -63,6 +48,8 @@ fun AgentModal(data: ModalData) {
     val isLoading by viewModel.isLoading.observeAsState(false)
     val errorMessage by viewModel.errorMessage.observeAsState()
 
+    var selectedOption by remember { mutableStateOf<String?>("Agent") }
+
     LaunchedEffect(agentUUID) {
         viewModel.fetchAgent(agentUUID)
     }
@@ -71,18 +58,24 @@ fun AgentModal(data: ModalData) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(5.dp),
             shape = RoundedCornerShape(16.dp),
         ) {
             Column(
-//                modifier = Modifier
-//                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 when {
                     isLoading -> {
-                        Text(text = "Loading...")
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(text = "Loading...")
+                        }
                     }
 
                     errorMessage != null -> {
@@ -93,14 +86,12 @@ fun AgentModal(data: ModalData) {
 
                     agentResponse != null -> {
                         val agent = agentResponse!!.data
-                        val colors = agent?.backgroundGradientColors
+                        val colors = agent.backgroundGradientColors
                         val colorList = mutableListOf<Color>()
 
-                        if (colors != null) {
-                            for (color in colors) {
-                                val parsedColor = hexToColorInt(color)
-                                colorList.add(Color(parsedColor))
-                            }
+                        for (color in colors) {
+                            val parsedColor = hexToColorInt(color)
+                            colorList.add(Color(parsedColor))
                         }
 
                         Row(
@@ -125,34 +116,88 @@ fun AgentModal(data: ModalData) {
                                     Image(
                                         painter = rememberAsyncImagePainter(agent.bustPortrait),
                                         contentDescription = imageDescription,
-
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(5.dp),
                                         contentScale = ContentScale.Crop
                                     )
                                 }
-
                             }
                         }
+
                         Column(
-                                modifier = Modifier.fillMaxWidth(),
-//                                horizontalAlignment = Arrangement.
-                            ) {
-                                Text(
-                                    text = agent.displayName,
-                                    modifier = Modifier.padding(16.dp),
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+
+                            Row(modifier = Modifier.fillMaxWidth()) {
+                                SelectionComponent(
+                                    isSelected = selectedOption == "Agent",
+                                    onStatusSelected = { newSelectedState ->
+                                        selectedOption = if (newSelectedState) "Agent" else null
+                                    },
+                                    statusText = "Agent",
+                                    modifier = Modifier.weight(1f)
                                 )
-                                Text(
-                                    text = "Description:",
-                                    modifier = Modifier.padding(16.dp),
-                                )
-                                Text(
-                                    text = agent.description,
-                                    modifier = Modifier.padding(16.dp),
+
+                                SelectionComponent(
+                                    isSelected = selectedOption == "Rol",
+                                    onStatusSelected = { newSelectedState ->
+                                        selectedOption = if (newSelectedState) "Rol" else null
+                                    },
+                                    statusText = "Rol",
+                                    modifier = Modifier.weight(1f)
                                 )
                             }
 
+                            selectedOption.let { it ->
+                                if (it == "Agent") {
+                                    Row {
+                                        Text(
+                                            text = "Name:",
+                                            modifier = Modifier.padding(16.dp),
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Text(
+                                            text = agent.displayName,
+                                            modifier = Modifier.padding(16.dp),
+                                        )
+                                    }
+                                    Text(
+                                        text = "Description:",
+                                        modifier = Modifier.padding(16.dp),
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = agent.description,
+                                        modifier = Modifier.padding(16.dp),
+                                    )
+                                } else if (it == "Rol") {
+                                    Row {
+                                        Text(
+                                            text = "Rol:",
+                                            modifier = Modifier.padding(16.dp),
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        agent.role?.let {
+                                            Text(
+                                                text = it.displayName,
+                                                modifier = Modifier.padding(16.dp),
+                                            )
+                                        }
+                                    }
+                                    Text(
+                                        text = "Description:",
+                                        modifier = Modifier.padding(16.dp),
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = agent.role?.description
+                                            ?: "No description available.",
+                                        modifier = Modifier.padding(16.dp),
+                                    )
+                                }
+                            }
+                        }
 
                         Row(
                             modifier = Modifier
