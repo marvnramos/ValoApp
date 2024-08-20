@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,12 +26,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.valoapp.data.models.Agent
 import com.example.valoapp.data.models.CardData
 import com.example.valoapp.data.models.ModalData
 import com.example.valoapp.ui.view.components.AgentModal
 import com.example.valoapp.ui.view.components.CardComponent
 import com.example.valoapp.ui.view.components.SearchBarComponent
 import com.example.valoapp.ui.viewmodel.AgentsViewModel
+import com.example.valoapp.utils.matchesSearchCriteria
 
 
 @Preview
@@ -43,14 +45,14 @@ fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
 
     var showDialog by remember { mutableStateOf(false) }
     var selectedAgentUUID by remember { mutableStateOf("") }
-    val text = rememberSaveable { mutableStateOf("") }
+    val toSearchData = rememberSaveable { mutableStateOf("") }
 
     val context = LocalContext.current
     val agentList = agents?.data ?: emptyList()
 
 
     Column(modifier = Modifier.fillMaxSize()) {
-        SearchBarComponent(text)
+        SearchBarComponent(toSearchData)
 
         when {
             isLoading -> {
@@ -70,7 +72,7 @@ fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
                 Toast.makeText(context, "Bad internet signal!", Toast.LENGTH_SHORT).show()
             }
 
-            agents != null -> {
+            toSearchData.value.isEmpty() && agents != null -> {
                 LazyColumn(
                     contentPadding = PaddingValues(8.dp),
                     modifier = Modifier.fillMaxSize()
@@ -86,7 +88,44 @@ fun HomeScreen(viewModel: AgentsViewModel = viewModel()) {
                                     modifier = Modifier
                                         .weight(1f)
                                         .padding(8.dp)
-                                        .height(250.dp),
+                                        .aspectRatio(1f),
+                                    onClick = {
+                                        selectedAgentUUID = agent.uuid
+                                        showDialog = true
+                                    }
+                                )
+                                CardComponent(dataCard)
+                            }
+                        }
+                    }
+                }
+            }
+
+            toSearchData.value.isNotEmpty() && agents != null -> {
+                val customAgentList: MutableList<Agent> = mutableListOf()
+
+                for (agent in agentList) {
+                    if (matchesSearchCriteria(agent, toSearchData.value)) {
+                        customAgentList.add(agent)
+                    }
+                }
+
+                LazyColumn(
+                    contentPadding = PaddingValues(8.dp),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(customAgentList.chunked(2)) { agentPair ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            agentPair.forEach { agent ->
+                                val dataCard = CardData(
+                                    agent = agent,
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(8.dp)
+                                        .aspectRatio(1f),
                                     onClick = {
                                         selectedAgentUUID = agent.uuid
                                         showDialog = true
