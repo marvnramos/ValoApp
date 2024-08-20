@@ -1,7 +1,7 @@
 package com.example.valoapp.data.repository
 
-import com.example.valoapp.data.models.AgentResponse
-import com.example.valoapp.data.models.AgentsResponse
+import com.example.valoapp.data.models.agents.AgentResponse
+import com.example.valoapp.data.models.agents.AgentsResponse
 import retrofit2.http.GET
 import retrofit2.Call
 import retrofit2.http.Path

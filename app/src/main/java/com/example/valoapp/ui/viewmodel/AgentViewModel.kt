@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.valoapp.data.RetrofitInstance
-import com.example.valoapp.data.models.AgentResponse
+import com.example.valoapp.data.models.agents.AgentResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

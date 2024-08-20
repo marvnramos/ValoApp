@@ -1,6 +1,6 @@
 package com.example.valoapp.utils
 
-import com.example.valoapp.data.models.Agent
+import com.example.valoapp.data.models.agents.Agent
 import java.util.Locale
 
 fun hexToColorInt(hex: String): Int {
