@@ -1,7 +1,4 @@
-package com.example.valoapp.data.models
-
-import com.example.valoapp.data.models.Role
-import com.example.valoapp.data.models.Ability
+package com.example.valoapp.data.models.agents
 
 data class Agent(
     val uuid: String,

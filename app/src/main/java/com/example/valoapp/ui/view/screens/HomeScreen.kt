@@ -26,7 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.valoapp.data.models.Agent
+import com.example.valoapp.data.models.agents.Agent
 import com.example.valoapp.data.models.CardData
 import com.example.valoapp.data.models.ModalData
 import com.example.valoapp.ui.view.components.AgentModal
