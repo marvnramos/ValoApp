@@ -18,12 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.valoapp.data.models.maps.Map
 
 @Composable
-fun MapCardComponent(map: Map, modifier: Modifier) {
+fun MapCardComponent(map: Map, modifier: Modifier, onClick: ()-> Unit) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -34,7 +36,7 @@ fun MapCardComponent(map: Map, modifier: Modifier) {
         Box(
             modifier = Modifier
                 .clickable(
-                    onClick = { /* Manejar el clic aquí */ },
+                    onClick = onClick,
                     indication = rememberRipple(),
                     interactionSource = remember { MutableInteractionSource() }
                 )
@@ -52,6 +54,8 @@ fun MapCardComponent(map: Map, modifier: Modifier) {
 
             Text(
                 text = map.displayName,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(16.dp),
                 color = androidx.compose.ui.graphics.Color.White
             )
