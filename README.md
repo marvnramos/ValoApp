@@ -1,0 +1,2 @@
+# Video
+📽️[video demostrativo](https://ufgedu-my.sharepoint.com/:v:/g/personal/ia_marvind_ufg_edu_sv/ETkYv-NS5q9Dt7ngYjm1fqkBP-i0A9-7wERMJ2oENbiLDw?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=hhKw58)
