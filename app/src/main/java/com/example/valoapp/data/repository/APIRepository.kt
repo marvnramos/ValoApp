@@ -15,6 +15,6 @@ interface APIRepository{
     fun getAgentById(@Path("uuid") uuid: String): Call<AgentResponse>
     @GET("maps")
     fun getMaps(): Call<MapsResponse>
-    @GET("agents/{uuid}")
+    @GET("maps/{uuid}")
     fun getMapById(@Path("uuid") uuid: String): Call<MapResponse>
 }
